@@ -2,6 +2,7 @@ import re
 import subprocess
 import os
 import json
+import requests
 from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
 
 
@@ -34,9 +35,16 @@ print(data['config'][0]['url'])
 print(data['config'][0]['log'])
 
 
-###
+# Read input data file and generate JSON format
+user_data = [
+    {"userid": "1", "title": "qui est esse", "body": "adsads"},
+    {"userid": "5", "title": "Mick", "body": "adsads"},
+    {"userid": "5", "title": "Mick", "body": "adsads"},
+    {"userid": "1", "title": "Mick", "body": "adsads"},
+]
+    ###
 
-
+# Creating schemas
 class JSONSchema(Schema):
     userid = fields.Integer(required=True,validate=validate.Range(min=1,max=10))
     title = fields.String(required=True)
@@ -46,16 +54,17 @@ class JSONSchema(Schema):
         # Include unknown fields in the deserialized output
         unknown = INCLUDE
 
+# Validate by marshmallow our JSON
+try:
+    JSONSchema(many=True).load(user_data)
+except ValidationError as err:
+    print(err.messages)
+    ###
 
-user_data = [
-    {"userid": "10", "title": "Mick", "body": "adsads"},
-    {"userid": "10", "title": "Mick", "body": "adsads"},
-    {"userid": "102", "title": "Mick", "body": "adsads"},
-    {"userid": "1", "title": "Mick", "body": "adsads", "hey": "asd"},
-]
 
 if __name__ == "__main__":
-    try:
-        JSONSchema(many=True).load(user_data)
-    except ValidationError as err:
-        print(err.messages)
+    # Step 1 - Using completed input data, make a request to URL
+    response = requests.get(data['config'][0]['url']) # request by url
+    queryURL = data['config'][0]['url'] + f"?userId={user_data[0]['userid']}&title={user_data[0]['title']}" # Search by 'userid' and 'title'
+    response = requests.get(queryURL) # second request by modified url
+    print(response.text)
