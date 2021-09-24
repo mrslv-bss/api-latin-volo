@@ -1,6 +1,7 @@
 import re
 import subprocess
 import os
+import json
 
 # Config File
 if os.environ.get('HOME_CONFIGFILE') is None:
@@ -23,3 +24,9 @@ if os.environ.get('HOME_INPUTFILE') is None:
         print("WARNING | New input variable({}) created. Restart script".format(INPUTFILE))
 else:
     print("Input file variable successfully finded: "+os.environ.get('HOME_INPUTFILE'))
+    
+# Read configuration.json
+with open(os.environ.get('HOME_CONFIGFILE')) as f:
+    data = json.load(f)
+print(data['config'][0]['url'])
+print(data['config'][0]['log'])
