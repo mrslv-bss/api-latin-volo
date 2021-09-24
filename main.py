@@ -2,6 +2,8 @@ import re
 import subprocess
 import os
 import json
+from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
+
 
 # Config File
 if os.environ.get('HOME_CONFIGFILE') is None:
@@ -30,3 +32,30 @@ with open(os.environ.get('HOME_CONFIGFILE')) as f:
     data = json.load(f)
 print(data['config'][0]['url'])
 print(data['config'][0]['log'])
+
+
+###
+
+
+class JSONSchema(Schema):
+    userid = fields.Integer(required=True,validate=validate.Range(min=1,max=10))
+    title = fields.String(required=True)
+    body = fields.String(required=True)
+    ID = fields.String(validate=validate.Range(min=1,max=100))
+    class Meta:
+        # Include unknown fields in the deserialized output
+        unknown = INCLUDE
+
+
+user_data = [
+    {"userid": "10", "title": "Mick", "body": "adsads"},
+    {"userid": "10", "title": "Mick", "body": "adsads"},
+    {"userid": "102", "title": "Mick", "body": "adsads"},
+    {"userid": "1", "title": "Mick", "body": "adsads", "hey": "asd"},
+]
+
+if __name__ == "__main__":
+    try:
+        JSONSchema(many=True).load(user_data)
+    except ValidationError as err:
+        print(err.messages)
