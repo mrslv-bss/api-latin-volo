@@ -4,6 +4,15 @@ import requests
 from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
 from defs import env_check
 import argparse
+import logging
+
+
+# Logging config
+logging.basicConfig(format = '%(asctime)s %(levelname)s %(message)s',
+                    datefmt = '%m/%d/%Y %I:%M:%S',
+                    filename = 'app.log',
+                    filemode='w',
+                    level=logging.DEBUG)
 
 # cmd: 'python main.py -p data.txt'
 parser = argparse.ArgumentParser(description='Get input file name.format')
