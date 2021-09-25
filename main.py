@@ -1,72 +1,18 @@
-import subprocess
 import os
 import json
 import requests
 from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
+from defs import env_check
+import argparse
 
+# cmd: 'python main.py -p data.txt'
+parser = argparse.ArgumentParser(description='Get input file name.format')
+parser.add_argument("-p", "--print_string", help="Enter your input file name (Example - data.txt)")
+args = parser.parse_args()
 
-# Config File
-if os.environ.get('HOME_CONFIGFILE') is None:
-    print("WARNING | Configuration file-variable is missing")
-    if os.name == 'nt':  # Windows
-        e = r'setx HOME_CONFIGFILE "{}\configuration.json"'.format(os.getcwd())
-        subprocess.Popen(e, shell=True).wait()
-        print("New configuration.json variable created. Please, restart me")
-        print("Terminate script? Y/N")
-        terminate = input("> ").upper()
-        if terminate == 'Y':
-            quit()
-        elif terminate == 'N':
-            print("Environment variable changes will take effect after reload")
-        else:
-            print("Incorrect input, terminate script :)")
-            quit()
-else:
-    print("Configuration file variable successfully finded: ")
-    print(os.environ.get('HOME_CONFIGFILE'))
-
-# Input File
-if os.environ.get('HOME_INPUTFILE') is None:
-    print("WARNING | Input file-variable is missing")
-    print("Enter your input file name (Example - data.txt):")
-    INPUTFILE = input("> ")
-    if os.name == 'nt':  # Windows
-        e = 'setx HOME_INPUTFILE "{}\\{}"'.format(os.getcwd(), INPUTFILE)
-        subprocess.Popen(e, shell=True).wait()
-        print("New input var {} created. Please, restart me".format(INPUTFILE))
-        print("Terminate script? Y/N")
-        terminate = input("> ").upper()
-        if terminate == 'Y':
-            quit()
-        elif terminate == 'N':
-            print("Environment variable changes will take effect after reload")
-        else:
-            print("Incorrect input, terminate script :)")
-            quit()
-else:
-    print("Input file variable successfully finded: ")
-    print(os.environ.get('HOME_INPUTFILE'))
-
-# Read configuration.json
-with open(os.environ.get('HOME_CONFIGFILE')) as f:
-    data = json.load(f)
-print(data['config'][0]['url'])
-print(data['config'][0]['log'])
-
-
-# Read input data file and generate JSON format
-user_data = [
-    {"userid": "1", "title": "qui est esse", "body": "adsads"},
-    {"userid": "5", "title": "Mick", "body": "adsads"},
-    {"userid": "5", "title": "Mick", "body": "adsads"},
-    {"userid": "1", "title": "Mick", "body": "adsads"},
-]
-with open(os.environ.get('HOME_INPUTFILE')) as f:
-    line = f.readline()
-    while line:
-        line = f.readline()
-        print(line)
-    ###
+# If argument is present
+if args.print_string is not None:
+    env_check(args.print_string)
 
 # Creating schemas
 class JSONSchema(Schema):
@@ -79,14 +25,37 @@ class JSONSchema(Schema):
         unknown = INCLUDE
 
 # Validate by marshmallow our JSON
-try:
-    JSONSchema(many=True).load(user_data)
-except ValidationError as err:
-    print(err.messages)
+# try:
+#     JSONSchema(many=True).load(user_data)
+# except ValidationError as err:
+#     print(err.messages)
     ###
 
 
 if __name__ == "__main__":
+    # If run argument is empty
+    if args.print_string is None:
+        env_check("")
+    # Read configuration.json
+    with open(os.environ.get('HOME_CONFIGFILE')) as f:
+        data = json.load(f)
+    print(data['config'][0]['url'])
+    print(data['config'][0]['log'])
+
+    # Read input data file and generate JSON format
+    user_data = [
+        {"userid": "1", "title": "qui est esse", "body": "adsads"},
+        {"userid": "5", "title": "Mick", "body": "adsads"},
+        {"userid": "5", "title": "Mick", "body": "adsads"},
+        {"userid": "1", "title": "Mick", "body": "adsads"},
+    ]
+    with open(os.environ.get('HOME_INPUTFILE')) as f:
+        line = f.readline()
+        while line:
+            line = f.readline()
+            print(line)
+    ###
+
     # Step 1 - Using completed input data, make a request to URL
     response = requests.get(data['config'][0]['url']) # request by url
     queryURL = data['config'][0]['url'] + f"?userId={user_data[0]['userid']}&title={user_data[0]['title']}" # Search by 'userid' and 'title'
