@@ -1,4 +1,3 @@
-import re
 import subprocess
 import os
 import json
@@ -12,7 +11,16 @@ if os.environ.get('HOME_CONFIGFILE') is None:
     if os.name == 'nt':  # Windows
         exp = 'setx HOME_CONFIGFILE "{}\configuration.json"'.format(os.getcwd())
         subprocess.Popen(exp, shell=True).wait()
-        print("WARNING | New configuration.json variable created. Restart script")
+        print("WARNING | New configuration.json variable created. Please, restart script!")
+        print("Terminate script? Y/N")
+        terminate = input("> ").upper()
+        if terminate == 'Y':
+            quit()
+        elif terminate == 'N':
+            print("Environment variables changes will take effect after reload.")
+        else:
+            print("Incorrect input, terminate script :)")
+            quit()
 else:
     print("Configuration file variable successfully finded: "+os.environ.get('HOME_CONFIGFILE'))
 
@@ -24,7 +32,16 @@ if os.environ.get('HOME_INPUTFILE') is None:
     if os.name == 'nt':  # Windows
         exp = 'setx HOME_INPUTFILE "{}\{}"'.format(os.getcwd(), INPUTFILE)
         subprocess.Popen(exp, shell=True).wait()
-        print("WARNING | New input variable({}) created. Restart script".format(INPUTFILE))
+        print("WARNING | New input variable({}) created. Please, restart script!".format(INPUTFILE))
+        print("Terminate script? Y/N")
+        terminate = input("> ").upper()
+        if terminate == 'Y':
+            quit()
+        elif terminate == 'N':
+            print("Environment variables changes will take effect after reload.")
+        else:
+            print("Incorrect input, terminate script :)")
+            quit()
 else:
     print("Input file variable successfully finded: "+os.environ.get('HOME_INPUTFILE'))
     
@@ -42,6 +59,11 @@ user_data = [
     {"userid": "5", "title": "Mick", "body": "adsads"},
     {"userid": "1", "title": "Mick", "body": "adsads"},
 ]
+with open(os.environ.get('HOME_INPUTFILE')) as f:
+    line = f.readline()
+    while line:
+        line = f.readline()
+        print(line)
     ###
 
 # Creating schemas
@@ -67,4 +89,4 @@ if __name__ == "__main__":
     response = requests.get(data['config'][0]['url']) # request by url
     queryURL = data['config'][0]['url'] + f"?userId={user_data[0]['userid']}&title={user_data[0]['title']}" # Search by 'userid' and 'title'
     response = requests.get(queryURL) # second request by modified url
-    print(response.text)
+    # print(response.text)
