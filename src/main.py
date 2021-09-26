@@ -41,6 +41,7 @@ if __name__ == "__main__":
     #     {"userid": "5", "title": "Mick", "body": "adsads"},
     #     {"userid": "1", "title": "Mick", "body": "adsads"},
     # ]
+    # print(user_data)
     with open(os.environ.get('HOME_INPUTFILE')) as f:
         letsdoit = f.readline()
         while letsdoit:
@@ -56,7 +57,7 @@ if __name__ == "__main__":
             
             w = re.split("#",o)
             # ['131', ' ', 'Title', 'Body']
-            
+        
             for orld in w:
                 if orld == " ":
                     w.remove(orld)
@@ -68,8 +69,12 @@ if __name__ == "__main__":
             
             if len(w) <= 2:
                 continue
-            print(w)
-
+            
+            JSON_format = ['userid','title','body']
+            JSON_Request = zip(JSON_format,w)
+            JSON_Validate = []
+            JSON_Validate.append(dict(JSON_Request))
+            validate(JSON_Validate)
 
     # Step 3 - Using completed input data, make a request to URL
     # response = requests.get(data['config'][0]['url']) # request by url
