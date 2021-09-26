@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import requests
 from defs import env_check
 import argparse
@@ -41,14 +42,37 @@ if __name__ == "__main__":
     #     {"userid": "1", "title": "Mick", "body": "adsads"},
     # ]
     with open(os.environ.get('HOME_INPUTFILE')) as f:
-        line = f.readline()
-        while line:
-            line = f.readline()
-            print(line)
+        letsdoit = f.readline()
+        while letsdoit:
+            letsdoit = f.readline()
+            
+            h = re.split("#",letsdoit)
+            e = h[0]
+            # [131: Title    Body], [other]
+            
+            ll = re.sub("\s{4}|\t|:", "#", e)
+            o = re.sub("#{1,5}", "#", ll)
+            # 131#Title#Body#
+            
+            w = re.split("#",o)
+            # ['131', ' ', 'Title', 'Body']
+            
+            for orld in w:
+                if orld == " ":
+                    w.remove(orld)
+                elif orld == "\n":
+                    w.remove(orld)
+                elif orld == "":
+                    w.remove(orld)
+            # ['131', 'Title', 'Body']
+            
+            if len(w) <= 2:
+                continue
+            print(w)
 
 
     # Step 3 - Using completed input data, make a request to URL
-    response = requests.get(data['config'][0]['url']) # request by url
-    queryURL = data['config'][0]['url'] + f"?userId={user_data[0]['userid']}&title={user_data[0]['title']}" # Search by 'userid' and 'title'
-    response = requests.get(queryURL) # second request by modified url
+    # response = requests.get(data['config'][0]['url']) # request by url
+    # queryURL = data['config'][0]['url'] + f"?userId={user_data[0]['userid']}&title={user_data[0]['title']}" # Search by 'userid' and 'title'
+    # response = requests.get(queryURL) # second request by modified url
     # print(response.text)
