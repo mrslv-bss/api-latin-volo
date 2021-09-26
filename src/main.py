@@ -45,35 +45,36 @@ if __name__ == "__main__":
             h = re.split("#",letsdoit)
             e = h[0]
             # [131: Title    Body], [other]
-            
             ll = re.sub("\s{4}|\t|:", "#", e)
             o = re.sub("#{1,5}", "#", ll)
             # 131#Title#Body#
             
-            w = re.split("#",o)
+            wo = re.sub(" #", "#", o)
+            r = re.sub("# ", "#", wo)
+            l = re.split("#",r)
             # ['131', ' ', 'Title', 'Body']
-        
-            for orld in w:
-                if orld == " ":
-                    w.remove(orld)
-                elif orld == "\n":
-                    w.remove(orld)
-                elif orld == "":
-                    w.remove(orld)
+            for d in l:
+                if d == " ":
+                    l.remove(d)
+                elif d == "\n":
+                    l.remove(d)
+                elif d == "":
+                    l.remove(d)
             # ['131', 'Title', 'Body']
             
-            if len(w) <= 2:
+            if len(l) <= 2:
                 continue
             
-            # print(w)
+            # print(l)
             
             JSON_format = ['userid','title','body']
-            JSON_Request = zip(JSON_format,w)
+            JSON_Request = zip(JSON_format,l)
             JSON_Validate = []
             JSON_Validate.append(dict(JSON_Request))
             validate(JSON_Validate)
-            # print(JSON_Validate[0]['userid'])
-            prerequest = API_Request(data['config'][0]['url'],JSON_Validate[0]['userid'],JSON_Validate[0]['title'])
+            # print("TEST:")
+            # print(JSON_Validate[0])
+            prerequest = API_Request(data['config'][0]['url'],JSON_Validate[0]['userid'],JSON_Validate[0]['title'],JSON_Validate[0])
             prerequest.request()
 
     # Step 3 - Using completed input data, make a request to URL
