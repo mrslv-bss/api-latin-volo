@@ -1,11 +1,10 @@
 import os
 import json
 import re
-from marshmallow.decorators import validates
-from defs import env_check
 import argparse
 import logging
-from schemas import JSONSchema,validate
+from defs import env_check
+from schemas import validate
 from api_request import API_Request
 
 # Logging config
@@ -33,8 +32,6 @@ if __name__ == "__main__":
     # Step 1 - Read configuration.json
     with open(os.environ.get('HOME_CONFIGFILE')) as f:
         data = json.load(f)
-    print(data['config'][0]['url'])
-    print(data['config'][0]['log'])
 
     # Step 2 - Read input data file and generate JSON format
     with open(os.environ.get('HOME_INPUTFILE')) as f:
@@ -44,15 +41,15 @@ if __name__ == "__main__":
             
             h = re.split("#",letsdoit)
             e = h[0]
-            # [131: Title    Body], [other]
+            # Actual view: [131: Title    Body], [other]
             ll = re.sub("\s{4}|\t|:", "#", e)
             o = re.sub("#{1,5}", "#", ll)
-            # 131#Title#Body#
+            # Actual view: 131#Title#Body#
             
             wo = re.sub(" #", "#", o)
             r = re.sub("# ", "#", wo)
             l = re.split("#",r)
-            # ['131', ' ', 'Title', 'Body']
+            # Actual view: ['131', ' ', 'Title', 'Body']
             for d in l:
                 if d == " ":
                     l.remove(d)
@@ -60,21 +57,23 @@ if __name__ == "__main__":
                     l.remove(d)
                 elif d == "":
                     l.remove(d)
-            # ['131', 'Title', 'Body']
+            # Actual view: ['131', 'Title', 'Body']
             
             if len(l) <= 2:
                 continue
-            
             # print(l)
             
+            # Step 3 - Package into JSON format
             JSON_format = ['userid','title','body']
             JSON_Request = zip(JSON_format,l)
             JSON_Validate = []
             JSON_Validate.append(dict(JSON_Request))
+            # Step 4 - Validate our JSON
             validate(JSON_Validate)
             # print("TEST:")
             # print(JSON_Validate[0])
-            prerequest = API_Request(data['config'][0]['url'],JSON_Validate[0]['userid'],JSON_Validate[0]['title'],JSON_Validate[0])
+            # Step 5 - Using completed input data, make a request to URL
+            prerequest = API_Request(data['config'][0]['url'],JSON_Validate[0])
             prerequest.request()
 
     # Step 3 - Using completed input data, make a request to URL
