@@ -1,7 +1,6 @@
 from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
+import logging
 
-
-# Creating schemas
 class JSONSchema(Schema):
     userid = fields.Integer(required=True,validate=validate.Range(min=1,max=10))
     title = fields.String(required=True)
@@ -17,4 +16,5 @@ def validate(user_data):
         JSONSchema(many=True).load(user_data)
     except ValidationError as err:
         print(err.messages)
+        logging.error(err.messages)
     ##
