@@ -10,3 +10,10 @@
     
 ### Dependencies
     -
+### Marshmallow Schemas
+look here: src/schemas.py
+
+    userid = fields.Integer(required=True,validate=validate.Range(min=1,max=10))
+    title = fields.String(required=True)
+    body = fields.String(required=True)
+    ID = fields.String(validate=validate.Range(min=1,max=100))
