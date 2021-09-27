@@ -7,14 +7,14 @@ from defs import env_check
 from schemas import validate
 from api_request import API_Request
 
-# cmd: 'python main.py -p data.txt'
+
 parser = argparse.ArgumentParser(description='Get input file name.format')
 
 help = "Enter your input file name (Example - data.txt)"
 parser.add_argument("-p", "--print_string", help=help)
 args = parser.parse_args()
 
-# If argument is present
+# If run argument is present
 if args.print_string is not None:
     formatcheck = re.search(r"\.txt$|\.log$|.html$", args.print_string)
     if formatcheck is None:
@@ -28,6 +28,13 @@ if __name__ == "__main__":
     # If run argument is empty
     if args.print_string is None:
         env_check("")
+
+    if os.path.isfile(os.environ.get('HOME_CONFIGFILE')) is False:
+        logging.error('Missing config file in your directory')
+        logging.info('Terminate Script')
+        print("Missing config file in your directory")
+        print("Terminate Script")
+        quit()
 
     # Step 1 - Read configuration.json
     with open(os.environ.get('HOME_CONFIGFILE')) as f:
@@ -47,6 +54,7 @@ if __name__ == "__main__":
         print("Missing input file in your directory")
         print("Terminate Script")
         quit()
+
     with open(os.environ.get('HOME_INPUTFILE')) as f:
         letsdoit = f.readline()
         while letsdoit:
@@ -85,6 +93,7 @@ if __name__ == "__main__":
                 logging.info("INPUT DATA: SUCCESS")
             else:
                 logging.error("INPUT DATA: ERROR")
+
             # Step 5 - Using completed input data, make a request to URL
             # E501 line too long (80 > 79 characters)
             prerequest = API_Request(data['config'][0]['url'], JSON_Validate[0])

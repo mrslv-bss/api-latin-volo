@@ -15,7 +15,6 @@ class JSONSchema(Schema):
 
 
 def validate(user_data):
-    # Validate by marshmallow our JSON
     try:
         JSONSchema(many=True).load(user_data)
         return True

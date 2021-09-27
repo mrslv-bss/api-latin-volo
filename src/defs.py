@@ -8,7 +8,7 @@ def env_check(inputarg):
     if os.environ.get('HOME_CONFIGFILE') is None:
         print("Configuration file-variable is missing")
         CONFIGFILE = "configuration.json"
-        if os.name == 'nt':  # Windows
+        if os.name == 'nt':  # Windows / Enter data to env
             e = r'setx HOME_CONFIGFILE "{}\{}"'.format(os.getcwd(), CONFIGFILE)
             subprocess.Popen(e, shell=True).wait()
             print("New configuration.json var created. Please, restart me")
@@ -19,8 +19,7 @@ def env_check(inputarg):
 # Input File
     if os.environ.get('HOME_INPUTFILE') is None:
         print("Input file-variable is missing")
-        # If run argument isn't empty
-        if inputarg != "":
+        if inputarg != "":  # If run argument isn't empty
             INPUTFILE = inputarg
         else:  # If run argument is empty
             print("Enter your input file name (Example - data.txt):")

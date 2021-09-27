@@ -11,7 +11,7 @@ class API_Request(object):
         self.JSONmain = JSONmain
 
     def request(self):
-        response = post(self.apiurl, self.JSONmain)  # POST Request
+        response = post(self.apiurl, self.JSONmain)
         response_native = json.loads(response.text)  # Response as JSON
         # Validation
         Response_Validate = []
