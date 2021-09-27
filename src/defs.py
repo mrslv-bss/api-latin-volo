@@ -1,7 +1,7 @@
 import subprocess
 import os
 import logging
-
+import re
 
 def env_check(inputarg):
     # Config File
@@ -25,6 +25,13 @@ def env_check(inputarg):
         else: # If run argument is empty
             print("Enter your input file name (Example - data.txt):")
             INPUTFILE = input("> ")
+            formatcheck = re.search("\.txt$|\.log$|.html$", INPUTFILE)
+            if formatcheck is None:
+                logging.error('Incorrect file type, available: .txt, .log, .html')
+                logging.info('Terminate Script')
+                print("Incorrect file type, available: .txt, .log, .html")
+                print("Terminate Script")
+                quit()
         if os.name == 'nt':  # Windows / Enter data to env
             e = 'setx HOME_INPUTFILE "{}\\{}"'.format(os.getcwd(), INPUTFILE)
             subprocess.Popen(e, shell=True).wait()

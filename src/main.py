@@ -21,6 +21,13 @@ args = parser.parse_args()
 
 # If argument is present
 if args.print_string is not None:
+    formatcheck = re.search("\.txt|\.log|.html", args.print_string)
+    if formatcheck is None:
+        logging.error('Incorrect file type, available: .txt, .log, .html')
+        logging.info('Terminate Script')
+        print("Incorrect file type, available: .txt, .log, .html")
+        print("Terminate Script")
+        quit()
     env_check(args.print_string)
 
 
