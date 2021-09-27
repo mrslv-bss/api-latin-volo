@@ -21,7 +21,7 @@ args = parser.parse_args()
 
 # If argument is present
 if args.print_string is not None:
-    formatcheck = re.search("\.txt|\.log|.html", args.print_string)
+    formatcheck = re.search("\.txt$|\.log$|.html$", args.print_string)
     if formatcheck is None:
         logging.error('Incorrect file type, available: .txt, .log, .html')
         logging.info('Terminate Script')
@@ -41,6 +41,12 @@ if __name__ == "__main__":
         data = json.load(f)
 
     # Step 2 - Read input data file and generate JSON format
+    if os.path.isfile(os.environ.get('HOME_INPUTFILE')) is False:
+        logging.error('Missing input file in your directory')
+        logging.info('Terminate Script')
+        print("Missing input file in your directory")
+        print("Terminate Script")
+        quit()
     with open(os.environ.get('HOME_INPUTFILE')) as f:
         letsdoit = f.readline()
         while letsdoit:
@@ -68,6 +74,7 @@ if __name__ == "__main__":
             
             if len(l) <= 2:
                 continue
+
             # print(l)
             
             # Step 3 - Package into JSON format
