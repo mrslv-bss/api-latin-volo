@@ -66,11 +66,4 @@
 <hr>
     
 ### Dependencies
-    -
-### Marshmallow Schemas
-look here: src/schemas.py
-
-    userid = fields.Number(required=True, validate=validate.Range(min=1, max=200))
-    title = fields.String(required=True)
-    body = fields.String(required=True)
-    id = fields.Number(validate=validate.Range(min=101))
+    pip install -r requirements.txt
