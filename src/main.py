@@ -7,13 +7,6 @@ from defs import env_check
 from schemas import validate
 from api_request import API_Request
 
-# Logging config
-logging.basicConfig(format = '%(asctime)s %(levelname)s %(message)s',
-                    datefmt = '%m/%d/%Y %I:%M:%S',
-                    filename = 'app.log',
-                    filemode='w',
-                    level=logging.DEBUG)
-
 # cmd: 'python main.py -p data.txt'
 parser = argparse.ArgumentParser(description='Get input file name.format')
 parser.add_argument("-p", "--print_string", help="Enter your input file name (Example - data.txt)")
@@ -23,8 +16,8 @@ args = parser.parse_args()
 if args.print_string is not None:
     formatcheck = re.search("\.txt$|\.log$|.html$", args.print_string)
     if formatcheck is None:
-        logging.error('Incorrect file type, available: .txt, .log, .html')
-        logging.info('Terminate Script')
+        # logging.error('Incorrect file type, available: .txt, .log, .html')
+        # logging.info('Terminate Script')
         print("Incorrect file type, available: .txt, .log, .html")
         print("Terminate Script")
         quit()
@@ -39,7 +32,14 @@ if __name__ == "__main__":
     # Step 1 - Read configuration.json
     with open(os.environ.get('HOME_CONFIGFILE')) as f:
         data = json.load(f)
-
+        
+    # Logging config
+    logging.basicConfig(format = '%(asctime)s %(levelname)s %(message)s',
+                        datefmt = '%m/%d/%Y %I:%M:%S',
+                        filename = data['config'][0]['log'],
+                        filemode='w',
+                        level=logging.DEBUG)
+    
     # Step 2 - Read input data file and generate JSON format
     if os.path.isfile(os.environ.get('HOME_INPUTFILE')) is False:
         logging.error('Missing input file in your directory')
