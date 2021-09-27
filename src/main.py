@@ -80,6 +80,7 @@ if __name__ == "__main__":
             # Step 3 - Package into JSON format
             JSON_format = ['userid','title','body']
             JSON_Request = zip(JSON_format,l)
+            # print(dict(JSON_Request))
             JSON_Validate = []
             JSON_Validate.append(dict(JSON_Request))
             # Step 4 - Validate our JSON

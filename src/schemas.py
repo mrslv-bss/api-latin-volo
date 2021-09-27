@@ -2,10 +2,10 @@ from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
 import logging
 
 class JSONSchema(Schema):
-    userid = fields.Number(required=True,validate=validate.Range(min=1,max=10))
+    userid = fields.Number(required=True,validate=validate.Range(min=1,max=200))
     title = fields.String(required=True)
     body = fields.String(required=True)
-    ID = fields.Number(validate=validate.Range(min=100))
+    id = fields.Number(validate=validate.Range(min=101))
     class Meta:
         # Include unknown fields in the deserialized output
         unknown = INCLUDE
