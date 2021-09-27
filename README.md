@@ -34,11 +34,35 @@
     {dir}\api-latin-volo\configuration.json
     Input file variable successfully finded:
     {dir}\api-latin-volo\input.txt
+###### Explanations for the log file
+	# 09/27/2021 02:26:24 INFO INPUT DATA: SUCCESS
+	if validate(JSON_Validate) is True:
+            logging.info("INPUT DATA: SUCCESS")
+        else:
+            logging.error("INPUT DATA: ERROR")
+
+	# 09/27/2021 02:26:24 INFO Validation status: SUCCESS
+	if validate(Response_Validate) is True:
+            logging.info("Validation status: SUCCESS")
+        else:
+            logging.error("Validation status: ERROR")
+	    
+	# 09/27/2021 02:26:24 INFO Response code: 201
+	logging.info("Response code: "+str(response.status_code))
+	
+	""" 09/27/2021 02:26:24 INFO {
+  		"userid": "95",
+  		"title": "Title example",
+  		"body": "Body ",
+  		"id": 101
+	} """
+	logging.info(response.text)
 <hr>
 
-### Log Format
-    <timestamp> - <type> - <message>
-    09/25/2021 08:15:39 DEBUG Starting new HTTPS connection (1): jsonplaceholder.typicode.com:443
+### Input line format
+    <user_id><split_character><title><split_character><body><optional_comments>
+    split_character: ':', 'tab', x4'space', '#'
+    110 : Title	Body # It's ok
 <hr>
     
 ### Dependencies
