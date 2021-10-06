@@ -6,17 +6,17 @@ import json
 
 class API_Request(object):
 
-    def __init__(self, apiurl, JSONmain):
-        self.apiurl = apiurl
-        self.JSONmain = JSONmain
+    def __init__(self, api_url, JSON_main):
+        self.api_url = api_url
+        self.JSON_main = JSON_main
 
     def request(self):
-        response = post(self.apiurl, self.JSONmain)
+        response = post(self.api_url, self.JSON_main)
         response_native = json.loads(response.text)  # Response as JSON
         # Validation
         Response_Validate = []
         Response_Validate.append(dict(response_native))
-        if validate(Response_Validate) is True:
+        if validate(Response_Validate):
             logging.info("Validation status: SUCCESS")
         else:
             logging.error("Validation status: ERROR")

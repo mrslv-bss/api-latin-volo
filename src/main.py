@@ -16,8 +16,8 @@ args = parser.parse_args()
 
 # If run argument is present
 if args.print_string is not None:
-    formatcheck = re.search(r"\.txt$|\.log$|.html$", args.print_string)
-    if formatcheck is None:
+    format_check = re.search(r"\.txt$|\.log$|.html$", args.print_string)
+    if format_check is None:
         print("Incorrect file type, available: .txt, .log, .html")
         print("Terminate Script")
         quit()
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             JSON_Validate.append(dict(JSON_Request))
 
             # Step 4 - Validate our JSON
-            if validate(JSON_Validate) is True:
+            if validate(JSON_Validate):
                 logging.info("INPUT DATA: SUCCESS")
             else:
                 logging.error("INPUT DATA: ERROR")

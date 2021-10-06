@@ -2,7 +2,7 @@ from marshmallow import Schema, fields, ValidationError, validate, INCLUDE
 import logging
 
 
-class JSONSchema(Schema):
+class JSON_Schema(Schema):
     # E501 line too long (82 > 79 characters)
     userid = fields.Number(required=True, validate=validate.Range(min=1, max=200))
     title = fields.String(required=True)
@@ -16,7 +16,7 @@ class JSONSchema(Schema):
 
 def validate(user_data):
     try:
-        JSONSchema(many=True).load(user_data)
+        JSON_Schema(many=True).load(user_data)
         return True
     except ValidationError as err:
         logging.warning(err.messages)

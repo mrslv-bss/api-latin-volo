@@ -3,7 +3,7 @@ import os
 import re
 
 
-def env_check(inputarg):
+def env_check(input_arg):
     # Config File
     if os.environ.get('HOME_CONFIGFILE') is None:
         print("Configuration file-variable is missing")
@@ -19,13 +19,13 @@ def env_check(inputarg):
 # Input File
     if os.environ.get('HOME_INPUTFILE') is None:
         print("Input file-variable is missing")
-        if inputarg != "":  # If run argument isn't empty
-            INPUTFILE = inputarg
+        if input_arg != "":  # If run argument isn't empty
+            INPUTFILE = input_arg
         else:  # If run argument is empty
             print("Enter your input file name (Example - data.txt):")
             INPUTFILE = input("> ")
-            formatcheck = re.search(r"\.txt$|\.log$|.html$", INPUTFILE)
-            if formatcheck is None:
+            format_check = re.search(r"\.txt$|\.log$|.html$", INPUTFILE)
+            if format_check is None:
                 print("Incorrect file type, available: .txt, .log, .html")
                 print("Terminate Script")
                 quit()
