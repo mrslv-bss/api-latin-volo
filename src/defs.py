@@ -13,7 +13,7 @@ def env_check(input_arg):
             subprocess.Popen(e, shell=True).wait()
             print("New configuration.json var created. Please, restart me")
     else:
-        print("Configuration file variable successfully finded: ")
+        print("Configuration file variable successfully found: ")
         print(os.environ.get('HOME_CONFIGFILE'))
 
 # Input File
@@ -45,5 +45,5 @@ def env_check(input_arg):
                 print("Terminate Script")
                 quit()
     else:
-        print("Input file variable successfully finded: ")
+        print("Input file variable successfully found: ")
         print(os.environ.get('HOME_INPUTFILE'))

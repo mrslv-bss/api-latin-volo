@@ -4,7 +4,7 @@ from schemas import validate
 import json
 
 
-class API_Request(object):
+class APIRequest(object):
 
     def __init__(self, api_url, JSON_main):
         self.api_url = api_url
@@ -20,5 +20,5 @@ class API_Request(object):
             logging.info("Validation status: SUCCESS")
         else:
             logging.error("Validation status: ERROR")
-        logging.info("Response code: "+str(response.status_code))
+        logging.info("Response code: " + str(response.status_code))
         logging.info(response.text)

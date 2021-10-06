@@ -5,7 +5,7 @@ import argparse
 import logging
 from defs import env_check
 from schemas import validate
-from api_request import API_Request
+from api_request import APIRequest
 
 
 parser = argparse.ArgumentParser(description='Get input file name.format')
@@ -96,5 +96,5 @@ if __name__ == "__main__":
 
             # Step 5 - Using completed input data, make a request to URL
             # E501 line too long (80 > 79 characters)
-            prerequest = API_Request(data['config'][0]['url'], JSON_Validate[0])
+            prerequest = APIRequest(data['config'][0]['url'], JSON_Validate[0])
             prerequest.request()
