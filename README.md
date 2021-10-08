@@ -30,9 +30,8 @@
 ###### Step 2
     > python src/main.py
     Output:
-    Configuration file variable successfully finded:
+    Neccessary environment variables successfully found: 
     {dir}\api-latin-volo\configuration.json
-    Input file variable successfully finded:
     {dir}\api-latin-volo\input.txt
 ###### Explanations for the log file
 	# 09/27/2021 02:26:24 INFO INPUT DATA: SUCCESS
@@ -40,12 +39,6 @@
             logging.info("INPUT DATA: SUCCESS")
         else:
             logging.error("INPUT DATA: ERROR")
-
-	# 09/27/2021 02:26:24 INFO Validation status: SUCCESS
-	if validate(Response_Validate) is True:
-            logging.info("Validation status: SUCCESS")
-        else:
-            logging.error("Validation status: ERROR")
 	    
 	# 09/27/2021 02:26:24 INFO Response code: 201
 	logging.info("Response code: "+str(response.status_code))
@@ -67,3 +60,6 @@
     
 ### Dependencies
     pip install -r requirements.txt
+    marshmallow==3.13.0
+    requests==2.26.0
+
