@@ -16,9 +16,5 @@ class APIRequest(object):
         # Validation
         Response_Validate = []
         Response_Validate.append(dict(response_native))
-        if validate(Response_Validate):
-            logging.info("Validation status: SUCCESS")
-        else:
-            logging.error("Validation status: ERROR")
         logging.info("Response code: " + str(response.status_code))
         logging.info(response.text)
