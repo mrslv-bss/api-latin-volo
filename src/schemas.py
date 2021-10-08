@@ -3,8 +3,8 @@ import logging
 
 
 class JSON_Schema(Schema):
-    # E501 line too long (82 > 79 characters)
-    userid = fields.Number(required=True, validate=validate.Range(min=1, max=200))
+    userid = fields.Number(required=True,
+                           validate=validate.Range(min=1, max=200))
     title = fields.String(required=True)
     body = fields.String(required=True)
     id = fields.Number(validate=validate.Range(min=101))

@@ -21,13 +21,13 @@ if args.print_string is not None:
         print("Incorrect file type, available: .txt, .log, .html")
         print("Terminate Script")
         quit()
-    env_check(args.print_string)
+    env_check(args.print_string, "HOME_CONFIGFILE", "HOME_INPUTFILE")
 
 
 if __name__ == "__main__":
     # If run argument is empty
     if args.print_string is None:
-        env_check("")
+        env_check("", "HOME_CONFIGFILE", "HOME_INPUTFILE")
 
     if os.path.isfile(os.environ.get('HOME_CONFIGFILE')) is False:
         logging.error('Missing config file in your directory')
@@ -95,6 +95,5 @@ if __name__ == "__main__":
                 logging.error("INPUT DATA: ERROR")
 
             # Step 5 - Using completed input data, make a request to URL
-            # E501 line too long (80 > 79 characters)
             prerequest = APIRequest(data['config'][0]['url'], JSON_Validate[0])
             prerequest.request()
