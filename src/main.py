@@ -7,26 +7,25 @@ from defs import env_check
 from schemas import validate
 from api_request import APIRequest
 
-
-parser = argparse.ArgumentParser(description='Get input file name.format')
-
-help = "Enter your input file name (Example - data.txt)"
-parser.add_argument("-p", "--print_string", help=help)
-args = parser.parse_args()
-
-# If run argument is present
-if args.print_string is not None:
-    format_check = re.search(r"\.txt$|\.log$|.html$", args.print_string)
-    if format_check is None:
-        print("Incorrect file type, available: .txt, .log, .html")
-        print("Terminate Script")
-        quit()
-    env_check(args.print_string, "HOME_CONFIGFILE", "HOME_INPUTFILE")
-
+# TODO / Main block is overengineered
 
 if __name__ == "__main__":
-    # If run argument is empty
-    if args.print_string is None:
+    parser = argparse.ArgumentParser(description='Get input file name.format')
+
+    help = "Enter your input file name (Example - data.txt)"
+    parser.add_argument("-p", "--print_string", help=help)
+    args = parser.parse_args()
+
+    # If run argument is present
+    if args.print_string is not None:
+        format_check = re.search(r"\.txt$|\.log$|.html$", args.print_string)
+        if format_check is None:
+            print("Incorrect file type, available: .txt, .log, .html")
+            print("Terminate Script")
+            quit()
+        env_check(args.print_string, "HOME_CONFIGFILE", "HOME_INPUTFILE")
+    # Elif run argument is empty
+    elif args.print_string is None:
         env_check("", "HOME_CONFIGFILE", "HOME_INPUTFILE")
 
     if os.path.isfile(os.environ.get('HOME_CONFIGFILE')) is False:
