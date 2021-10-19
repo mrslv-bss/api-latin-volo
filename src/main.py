@@ -65,25 +65,24 @@ if __name__ == "__main__":
             ll = re.sub(r"\s{4}|\t|:", "#", e)
             o = re.sub("#{1,5}", "#", ll)
             # Actual view: 131#Title#Body#
-            wo = re.sub(" #", "#", o)
-            r = re.sub("# ", "#", wo)
-            ld = re.split("#", r)
+
+            world = re.split(r"\s*#\s*", o)
             # Actual view: ['131', ' ', 'Title', 'Body']
 
-            for remdel in ld:
+            for remdel in world:
                 if remdel == " ":
-                    ld.remove(remdel)
+                    world.remove(remdel)
                 elif remdel == "\n":
-                    ld.remove(remdel)
+                    world.remove(remdel)
                 elif remdel == "":
-                    ld.remove(remdel)
+                    world.remove(remdel)
             # Actual view: ['131', 'Title', 'Body']
-            if len(ld) <= 2:
+            if len(world) <= 2:
                 continue
 
             # Step 3 - Package into JSON format
             JSON_format = ['userid', 'title', 'body']
-            JSON_Request = zip(JSON_format, ld)
+            JSON_Request = zip(JSON_format, world)
             JSON_Validate = []
             JSON_Validate.append(dict(JSON_Request))
 
