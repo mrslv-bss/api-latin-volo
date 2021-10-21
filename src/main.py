@@ -3,37 +3,16 @@ import json
 import re
 import argparse
 import logging
-from defs import env_check
+from defs import env_check, args_check
 from schemas import validate
 from api_request import APIRequest
-
-# TODO / Main block is overengineered
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Get input file name.format')
 
     help = "Enter your input file name (Example - data.txt)"
     parser.add_argument("-p", "--print_string", help=help)
-    args = parser.parse_args()
-
-    # If run argument is present
-    if args.print_string is not None:
-        format_check = re.search(r"\.txt$|\.log$|.html$", args.print_string)
-        if format_check is None:
-            print("Incorrect file type, available: .txt, .log, .html")
-            print("Terminate Script")
-            quit()
-        env_check(args.print_string, "HOME_CONFIGFILE", "HOME_INPUTFILE")
-    # Elif run argument is empty
-    elif args.print_string is None:
-        env_check("", "HOME_CONFIGFILE", "HOME_INPUTFILE")
-
-    if os.path.isfile(os.environ.get('HOME_CONFIGFILE')) is False:
-        logging.error('Missing config file in your directory')
-        logging.info('Terminate Script')
-        print("Missing config file in your directory")
-        print("Terminate Script")
-        quit()
+    args_check(parser.parse_args().print_string)
 
     # Step 1 - Read configuration.json
     with open(os.environ.get('HOME_CONFIGFILE')) as f:
