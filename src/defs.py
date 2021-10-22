@@ -38,6 +38,7 @@ def env_check(input_arg, env_name_config, env_name_input):
         print(os.environ.get(env_name_config))
         print(os.environ.get(env_name_input))
 
+
 def args_check(arg_string):
     # If run argument is present
     if arg_string is not None:
