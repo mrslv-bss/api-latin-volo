@@ -7,7 +7,7 @@ from defs import env_check, args_check
 from schemas import validate
 from api_request import APIRequest
 
-if __name__ == "__main__":
+def read_files():
     parser = argparse.ArgumentParser(description='Get input file name.format')
 
     help = "Enter your input file name (Example - data.txt)"
@@ -31,8 +31,11 @@ if __name__ == "__main__":
         logging.info('Terminate Script')
         print("Missing input file in your directory")
         print("Terminate Script")
-        quit()
+    return data
 
+
+def main():
+    data = read_files()
     with open(os.environ.get('HOME_INPUTFILE')) as f:
         letsdoit = f.readline()
         while letsdoit:
@@ -74,3 +77,6 @@ if __name__ == "__main__":
             # Step 5 - Using completed input data, make a request to URL
             prerequest = APIRequest(data['config'][0]['url'], JSON_Validate[0])
             prerequest.request()
+
+if __name__ == "__main__":
+    main()
